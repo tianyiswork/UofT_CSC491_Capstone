@@ -3,6 +3,7 @@ const autoprefixer = require("autoprefixer");
 const htmlWebpackPlugin = require("html-webpack-plugin");
 const cleanWebpackPlugin = require("clean-webpack-plugin");
 const UglifyJSPlugin = require("uglifyjs-webpack-plugin");
+const webpack = require('webpack');
 import { ConfigurationManager } from "@nivinjoseph/n-config";
 
 const isDev = ConfigurationManager.getConfig<string>("env") === "dev";
@@ -10,10 +11,12 @@ const isDev = ConfigurationManager.getConfig<string>("env") === "dev";
 const plugins = [
     new cleanWebpackPlugin(["src/client/dist"]),
     new htmlWebpackPlugin({
-        template: "src/server/controllers/app/index/index-view.html",
+        template: "src/client/index-view.html",
         hash: true,
         // favicon: "src/client/images/favicon.png",
-    })
+    }),
+    new webpack.NamedModulesPlugin(),
+    new webpack.HotModuleReplacementPlugin()
 ];
 
 if (!isDev)
@@ -26,6 +29,15 @@ if (!isDev)
 
 module.exports = {
     entry: ["./src/client/client.js"],
+    
+    devServer: {
+        contentBase: "src/client/dist",
+        hot: true,
+        open: true,
+        inline: true,
+        
+    },
+    
     output: {
         filename: "[name].bundle.js",
         path: path.resolve(__dirname, "src/client/dist")
