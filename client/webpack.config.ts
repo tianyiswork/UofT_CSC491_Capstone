@@ -33,7 +33,6 @@ module.exports = {
     devServer: {
         contentBase: "src/client/dist",
         hot: true,
-        open: true,
         inline: true,
         
     },
