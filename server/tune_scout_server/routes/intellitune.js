@@ -10,9 +10,15 @@ const options = {
 };
 const recognizer = new speechService(options);
 const ffmpeg = require('fluent-ffmpeg');
+const pyshell = require('python-shell');
 
 const SECONDS = 1 / 1000;
 const MB = 1 / 1024 / 1024;
+const ML_OPTIONS = {
+    scriptPath: '../../ML/music-source-separation/',
+    args: ['./pre-vocal-extraction', './vocals']
+};
+const ML_SCRIPT = 'eval.py';
 
 /* GET lyrics. */
 router.get('/:id', function (req, res, next) {
@@ -41,16 +47,25 @@ router.get('/:id', function (req, res, next) {
     stream.on('finish', () => {
         console.log('Download completed!');
         ffmpeg('video.mp4')
-            .output('video.wav')
+            .output('pre-vocal-extraction/video.wav')
             .run();
-        recognizer
+
+        // Extract vocals (Make sure to run with python env activated)
+        pyshell.run(ML_SCRIPT, ML_OPTIONS, (err) => {
+            if (!fs.existsSync(ML_OPTIONS.args[1] + '/video-voice.wav')) {
+                console.log('ERROR: File was not created properly');
+                if (err) console.log(err);
+                res.status(500).end();
+                throw InternalError;
+            }
+            recognizer
             .start()
             .then(_ => {
                 recognizer.on('recognition', (e) => {
                     if (e.RecognitionStatus === 'Success') {
                         result += (e.DisplayText + ' ');
                     } else if (e.RecognitionStatus == 'EndOfDictation') {
-                        fs.unlink('video.wav', (err) => {
+                        fs.unlink('./pre-vocal-extraction/video.wav', (err) => {
                             if (err) throw err;
                             console.log('video.wav was deleted');
                         });
@@ -66,10 +81,11 @@ router.get('/:id', function (req, res, next) {
                     }
                 });
 
-                recognizer.sendFile('video.wav')
+                recognizer.sendFile('./vocals/video-voice.wav')
                     .then(_ => console.log('file sent.'))
                     .catch(console.error);
             }).catch(console.error);
+        });
     });
 
 });
