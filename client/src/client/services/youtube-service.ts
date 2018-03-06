@@ -1,6 +1,6 @@
 // import * as gapi from "gapi";
 
-var gapi;
+// var gapi;
 
 export class YoutubeService
 {

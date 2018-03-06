@@ -7,8 +7,8 @@
                     <img src="./images/yt_icon_rgb.png" class="youtube-icon" />
                     
                     
-                    <input type="email" placeholder="Search Youtube here" />
-                    <button>
+                    <input type="text" v-model="videoLink" placeholder="Paste your YouTube Link" />
+                    <button type="button" v-on:click="onSearch" >
                         <svg class="icon">
                             <use xlink:href="./../../static/sprites.svg#arrow-short-right"></use>
                         </svg>
@@ -16,7 +16,56 @@
                 </div>
             </form>
             
-            <div class="search-result" >
+            
+            <div class="placeholder" v-if="!gotVideo" >
+                <div class="back-ground-image" >
+                    <img src="./images/yt_logo_mono_dark.png">
+                </div>
+                     
+            
+            </div>
+            <iframe 
+                v-if="gotVideo"
+                class="iframe-styles"
+                width="560" 
+                height="315" 
+                :src="embededLink" 
+                frameborder="0" 
+                allow="encrypted-media"
+                allowfullscreen></iframe>
+            
+            
+            <div class="extract" >
+                <div class="placeholder" v-if="!gotVideo" >
+                    <div class="placeholder-line" >
+                    
+                    </div>
+                    <div class="placeholder-line" style="width: 400px">
+                    
+                    </div>
+                    <div class="placeholder-line" style="width: 550px">
+                    
+                    </div>
+                    <div class="placeholder-line" style="width: 300px" > 
+                    </div>
+                    <div class="placeholder-line">
+                    
+                    </div>
+                    <div class="placeholder-line" style="width: 400px">
+                    
+                    </div>
+                    <div class="placeholder-line" style="width: 550px">
+                    
+                    </div>
+                    <div class="placeholder-line" style="width: 300px">
+                    </div>
+                </div>
+            </div>
+            
+            
+            
+            
+            <!-- <div class="search-result" >
                 
                 <div class="search-item" >
                     <div class="video-snip" >
@@ -31,11 +80,11 @@
                     </div>
                 </div>
                 
-            </div>
+            </div> -->
             
         </div>
         
-        <div class="column-right">
+        <!-- <div class="column-right">
             <div class="info-box" >
                 
             </div>
@@ -44,7 +93,7 @@
                 
             </div>
 
-        </div>
+        </div> -->
         
     </div>
     

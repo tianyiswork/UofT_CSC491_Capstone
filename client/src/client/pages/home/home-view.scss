@@ -1,7 +1,17 @@
+@mixin size($width, $height: $width) {
+      width: $width;
+      height: $height;
+}
+
 .home-view
 {
-    height: 100vh;
+    // height: 100vh;
     // display: flex; 
+    
+    .inactive
+    {
+        display: none;
+    }
     
     .columns
     {
@@ -13,8 +23,8 @@
      
         .column-left
         {
-            border-right: 2px solid black;
-            flex-basis: 50%;
+            max-width: 1070px;
+            flex-basis: 90%;
             display: flex;
             flex-direction: column;
             
@@ -47,7 +57,7 @@
                         color: #6b6b6b;
                         margin-left: 20px;
                         font-size: 15px;
-                        flex-basis: 65%;
+                        flex-basis: 85%;
                         margin-right: 10px;
                     }
                     
@@ -62,6 +72,7 @@
                         border-radius: 3px;
                         padding-right: 20px;
                         padding-left: 20px;
+                        margin-right: 5px;
                         align-items: center;
                         align-content: center;
                         .icon
@@ -80,87 +91,156 @@
             } 
             
             
-            .search-result
+            .placeholder
             {
-                display: flex;
-                flex-flow: column;
-                justify-content: center;
-                align-content: center;
-                cursor: pointer;
-                .search-item
+                // display: none;
+                position: relative;
+                display: block;
+                margin-left: auto; 
+                margin-right: auto; 
+                width: 800px;
+                height: 400px; 
+                background-color: #d0e6ff;
+                opacity: 0.5; 
+                
+                .back-ground-image
                 {
-                    position: relative;
-                    display: flex;
-                    flex-direction: row;
-                    height: 90px;
-                    border: 1px solid #d0e6ff;
-                    border-radius: 5px;
-                    margin-top: 20px;
-                    margin-bottom: 20px;
-                    
-                    &:hover
+                    position: absolute;
+                    left: 35%;
+                    top: 40%;
+                    height: 200px; 
+                    width: 200px;
+                     
+                    img
                     {
-                        border: 1px red solid;
-                        border-radius: 5px;
+                        width: 100%;   
+                        margin: 0; 
                     }
-                    
-                    .video-snip
-                    {
-                        width: 90px;
-                        background-color: red;
-                        display: inline-block;
-                        border-top-left-radius: 5px;
-                        border-bottom-left-radius: 5px;
-                       
-                    }
-                    
-                    .extract-button
-                    {
-                        position: absolute;
-                        display: block;
-                        background-color: red;
-                        color: #fff;
-                        text-align: center;
-                        height: 89px;
-                        border-radius: 5px;
-                        border-top-left-radius: 0px;
-                        border-bottom-left-radius: 0px;
-                        right: -1px;
-                        top: -1px;
-                        padding-top: 30px;
-                        padding-left: 10px;
-                        padding-right: 10px;
-                        cursor: pointer;
-                        
-                        &:hover
-                        {
-                            opacity: 0.5;
-                        }
-                        
-                    }
-                    .description
-                    {
-                        margin: 10px;
-                    }
-                    p
-                    {
-                        font-size: 12px;
-                        margin: 0;     
-                        color: #575757;
-                        text-transform: uppercase;
-                    }
-                    
                 }
             }
+            
+            .iframe-styles
+            {
+                // display: none;
+                margin-left: auto; 
+                margin-right: auto; 
+                width: 800px;
+                height: 400px; 
+            }
+            
+            .extract
+            {
+                position: relative;
+                margin-left: auto; 
+                margin-right: auto;
+                margin-top: 20px;
+                margin-bottom: 20px;
+                width: 800px;
+                height: 400px;
+                background-color: #d0e6ff;
+                opacity: 0.5; 
+                
+                .placeholder
+                {
+                    position: absolute;
+                    top: 10%;
+                    left: 10%;
+                    width : 80%;
+                    height: 80%;
+                    opacity: 0.5;
+                    
+                    .placeholder-line
+                    {
+                        display: block;
+                        width: 600px; 
+                        height: 20px;
+                        margin: 20px; 
+                        background: #6b6b6b;
+                    }
+                }
+            }
+            
+            // .search-result
+            // {
+            //     display: flex;
+            //     flex-flow: column;
+            //     justify-content: center;
+            //     align-content: center;
+            //     cursor: pointer;
+            //     .search-item
+            //     {
+            //         position: relative;
+            //         display: flex;
+            //         flex-direction: row;
+            //         height: 90px;
+            //         border: 1px solid #d0e6ff;
+            //         border-radius: 5px;
+            //         margin-top: 20px;
+            //         margin-bottom: 20px;
+                    
+            //         &:hover
+            //         {
+            //             border: 1px red solid;
+            //             border-radius: 5px;
+            //         }
+                    
+            //         .video-snip
+            //         {
+            //             width: 90px;
+            //             background-color: red;
+            //             display: inline-block;
+            //             border-top-left-radius: 5px;
+            //             border-bottom-left-radius: 5px;
+                       
+            //         }
+                    
+            //         .extract-button
+            //         {
+            //             position: absolute;
+            //             display: block;
+            //             background-color: red;
+            //             color: #fff;
+            //             text-align: center;
+            //             height: 89px;
+            //             border-radius: 5px;
+            //             border-top-left-radius: 0px;
+            //             border-bottom-left-radius: 0px;
+            //             right: -1px;
+            //             top: -1px;
+            //             padding-top: 30px;
+            //             padding-left: 10px;
+            //             padding-right: 10px;
+            //             cursor: pointer;
+                        
+            //             &:hover
+            //             {
+            //                 opacity: 0.5;
+            //             }
+                        
+            //         }
+            //         .description
+            //         {
+            //             margin: 10px;
+            //         }
+            //         p
+            //         {
+            //             font-size: 12px;
+            //             margin: 0;     
+            //             color: #575757;
+            //             text-transform: uppercase;
+            //         }
+                    
+            //     }
+            // }
             
         }
         
         .column-right
         {
             // border: 2px solid black;
-            flex-basis: 50%;
-            
-            display: flex;
+            // flex-basis: 50%;
+            display: none;
+            // display: flex;
             justify-content: center;
             align-content: center;
             flex-direction: column;
