@@ -1,0 +1,8 @@
+nohup.out
+*.wav
+dataset
+.idea
+*.pyc
+.DS_Store
+graphs
+checkpoints/4frames_ikala/old
