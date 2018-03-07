@@ -85,6 +85,7 @@ def eval(data_path=None, result_path=None):
             # Write the result
             for i in range(len(wavfiles)):
                 name = 'video'
+                print output_path
                 write_wav(mixed_wav[i], '{}/{}-{}'.format(output_path, name, 'original'))
                 write_wav(pred_src1_wav[i], '{}/{}-{}'.format(output_path, name, 'music'))
                 write_wav(pred_src2_wav[i], '{}/{}-{}'.format(output_path, name, 'voice'))

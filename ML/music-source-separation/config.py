@@ -54,7 +54,7 @@ class EvalConfig:
     DATA_PATH = 'dataset/test'
     GRIFFIN_LIM = False
     GRIFFIN_LIM_ITER = 1000
-    NUM_EVAL = 1 
+    NUM_EVAL = 1
     SECONDS = 60
     RE_EVAL = True
     EVAL_METRIC = False
