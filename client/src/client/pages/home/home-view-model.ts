@@ -13,6 +13,7 @@ export class HomeViewModel extends PageViewModel
     private _embededLink: string;
     private _videoLink: string;
     private _extractedLyrics: string;
+    private _loading: boolean;
     
     public get gotVideo(): boolean { return this._gotVideo; }
     
@@ -20,7 +21,7 @@ export class HomeViewModel extends PageViewModel
     public set videoLink(value: string) { this._videoLink = value; }
     public get embededLink(): string { return this._embededLink; } 
     public get extractedLyrics(): string { return this._extractedLyrics; }
-    
+    public get loading(): boolean { return this._loading; }
     
     public constructor()
     {
@@ -29,6 +30,8 @@ export class HomeViewModel extends PageViewModel
         this._gotVideo = false;
         this._videoLink = null;
         this._embededLink = null;
+        this._loading = false;
+        this._extractedLyrics = null;
     }
     
     public async onSearch(): Promise<void>
@@ -44,10 +47,12 @@ export class HomeViewModel extends PageViewModel
         {
             video_id = video_id.substring(0, ampersandPosition);
         }
+        console.log("bruh")
         this._gotVideo = true;
         this._embededLink = `http://www.youtube.com/embed/${video_id}?rel=0`;
         console.log(video_id);
-        let response = await axios.get<string>(`localhost:3000/intellitune/${video_id}`);
+        this._loading = true;
+        let response = await axios.get<string>(`http://localhost:3000/intellitune/${video_id}`);
         this._extractedLyrics = response.data;
         console.log(this._extractedLyrics); 
     }
