@@ -52,8 +52,14 @@ export class HomeViewModel extends PageViewModel
         this._embededLink = `http://www.youtube.com/embed/${video_id}?rel=0`;
         console.log(video_id);
         this._loading = true;
-        let response = await axios.get<string>(`http://localhost:3000/intellitune/${video_id}`);
-        this._extractedLyrics = response.data;
+        let response = await axios.get<reponseData>(`http://localhost:3000/intellitune/${video_id}`);
+        this._extractedLyrics = response.data.lyrics;
+        this._loading = false;
         console.log(this._extractedLyrics); 
     }
+}
+
+interface reponseData
+{
+    lyrics: string;
 }
