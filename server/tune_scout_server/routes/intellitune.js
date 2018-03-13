@@ -11,12 +11,11 @@ const options = {
 const recognizer = new speechService(options);
 const ffmpeg = require('fluent-ffmpeg');
 const pyshell = require('python-shell');
-const child_process = require('child_process');
+const childProcess = require('child_process');
 
 const SECONDS = 1 / 1000;
 const MB = 1 / 1024 / 1024;
 const ML_OPTIONS = {
-    pythonPath: '/Users/Husham/.pyenv/versions/tunescout-2.7/bin/python',
     scriptPath: __dirname + '/../../../ML/music-source-separation/',
     args: [__dirname + '/../pre-vocal-extraction', __dirname + '/../vocals']
 };
@@ -24,6 +23,7 @@ const ML_SCRIPT = 'eval.py';
 
 /* GET lyrics. */
 router.get('/:id', function (req, res, next) {
+    let returned = false;
     console.log('Intellitune hit with id: ' + req.params.id);
     let result = '';
     const stream = ytdl(req.params.id, { format: (format) => format.container === 'mp4' });
@@ -51,77 +51,86 @@ router.get('/:id', function (req, res, next) {
             .output('pre-vocal-extraction/video.wav')
             .run();
 
-        // Extract vocals (Make sure to run with python env activated)
-        let command = "pyenv activate tunescout-2.7 && python " + ML_OPTIONS.scriptPath + ML_SCRIPT + " " + ML_OPTIONS.args[0] + " "  + ML_OPTIONS.args[1]
-        console.log(command);
-        child_process.execSync(command);
-        if (!fs.existsSync(ML_OPTIONS.args[1] + '/video-voice.wav')) {
-            console.log('ERROR: File was not created properly');
-            res.status(500).end();
-            throw InternalError;
-        }
-        recognizer
-        .start()
-        .then(_ => {
-            recognizer.on('recognition', (e) => {
-                if (e.RecognitionStatus === 'Success') {
-                    result += (e.DisplayText + ' ');
-                } else if (e.RecognitionStatus == 'EndOfDictation') {
-                    fs.unlink('./pre-vocal-extraction/video.wav', (err) => {
-                        if (err) throw err;
-                        console.log('video.wav was deleted');
-                    });
-                    fs.unlink('video.mp4', (err) => {
-                        if (err) throw err;
-                        console.log('video.wav was deleted');
-                    });
-                    res.status(200).json({
-                        lyrics: result
-                    })
-                } else {
-                    console.log(e);
-                }
-            });
+        // Exctract vocals
+        const getVocals = childProcess.spawn('./get_vocals.sh');
 
-            recognizer.sendFile('./vocals/video-voice.wav')
-                .then(_ => console.log('file sent.'))
-                .catch(console.error);
-        }).catch(console.error);
-        // pyshell.run(ML_SCRIPT, ML_OPTIONS, (err) => {
-        //     if (err) console.log(err);
-        //     if (!fs.existsSync(ML_OPTIONS.args[1] + '/video-voice.wav')) {
-        //         console.log('ERROR: File was not created properly');
-        //         res.status(500).end();
-        //         throw InternalError;
-        //     }
-        //     recognizer
-        //     .start()
-        //     .then(_ => {
-        //         recognizer.on('recognition', (e) => {
-        //             if (e.RecognitionStatus === 'Success') {
-        //                 result += (e.DisplayText + ' ');
-        //             } else if (e.RecognitionStatus == 'EndOfDictation') {
-        //                 fs.unlink('./pre-vocal-extraction/video.wav', (err) => {
-        //                     if (err) throw err;
-        //                     console.log('video.wav was deleted');
-        //                 });
-        //                 fs.unlink('video.mp4', (err) => {
-        //                     if (err) throw err;
-        //                     console.log('video.wav was deleted');
-        //                 });
-        //                 res.status(200).json({
-        //                     lyrics: result
-        //                 })
-        //             } else {
-        //                 console.log(e);
-        //             }
-        //         });
+        getVocals.stdout.on('data', (data) => {
+            console.log(`stdout: ${data}`);
+          });
 
-        //         recognizer.sendFile('./vocals/video-voice.wav')
-        //             .then(_ => console.log('file sent.'))
-        //             .catch(console.error);
-        //     }).catch(console.error);
-        // });
+        getVocals.on('close', (code) => {
+            console.log('Sending to Speech Recognizer');
+            if (!fs.existsSync(ML_OPTIONS.args[1] + '/video-voice.wav')) {
+                console.log('ERROR: File was not created properly');
+                res.status(500).end();
+                throw InternalError;
+            }
+            recognizer
+            .start()
+            .then(_ => {
+                recognizer.on('recognition', (e) => {
+                    if (e.RecognitionStatus === 'Success') {
+                        result += (e.DisplayText + ' ');
+                    } else if (e.RecognitionStatus == 'EndOfDictation' && !returned) {
+                        returned = true;
+                        fs.unlink('./pre-vocal-extraction/video.wav', (err) => {
+                            if (err) throw err;
+                            console.log('video.wav was deleted');
+                        });
+                        fs.unlink('video.mp4', (err) => {
+                            if (err) throw err;
+                            console.log('video.wav was deleted');
+                        });
+                        return res.status(200).json({
+                            lyrics: result
+                        });
+                    } else {
+                        console.log(e);
+                    }
+                });
+
+                recognizer.sendFile('./vocals/video-voice.wav')
+                    .then(_ => console.log('file sent.'))
+                    .catch(console.error);
+            }).catch(console.error);
+        });
+        return;
+    //     pyshell.run(ML_SCRIPT, ML_OPTIONS, (err) => {
+    //         if (err) console.log(err);
+    //         if (!fs.existsSync(ML_OPTIONS.args[1] + '/video-voice.wav')) {
+    //             console.log('ERROR: File was not created properly');
+    //             res.status(500).end();
+    //             throw InternalError;
+    //         }
+    //         recognizer
+    //         .start()
+    //         .then(_ => {
+    //             recognizer.on('recognition', (e) => {
+    //                 if (e.RecognitionStatus === 'Success') {
+    //                     result += (e.DisplayText + ' ');
+    //                 } else if (e.RecognitionStatus == 'EndOfDictation') {
+    //                     fs.unlink('./pre-vocal-extraction/video.wav', (err) => {
+    //                         if (err) throw err;
+    //                         console.log('video.wav was deleted');
+    //                     });
+    //                     fs.unlink('video.mp4', (err) => {
+    //                         if (err) throw err;
+    //                         console.log('video.wav was deleted');
+    //                     });
+    //                     res.status(200).json({
+    //                         lyrics: result
+    //                     })
+    //                 } else {
+    //                     console.log(e);
+    //                 }
+    //             });
+
+    //             recognizer.sendFile('./vocals/video-voice.wav')
+    //                 .then(_ => console.log('file sent.'))
+    //                 .catch(console.error);
+    //         }).catch(console.error);
+    //     });
+    // });
     });
 });
 
