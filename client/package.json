@@ -30,6 +30,7 @@
   ],
   "author": "Shrey",
   "devDependencies": {
+    "@types/gapi.client.youtube": "^3.0.0",
     "nodemon": "^1.11.0",
     "webpack-cli": "^2.0.10",
     "webpack-dev-server": "^2.11.1"

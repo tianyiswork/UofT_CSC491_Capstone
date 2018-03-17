@@ -10,12 +10,20 @@ const options = {
 };
 const recognizer = new speechService(options);
 const ffmpeg = require('fluent-ffmpeg');
+const pyshell = require('python-shell');
+const childProcess = require('child_process');
 
 const SECONDS = 1 / 1000;
 const MB = 1 / 1024 / 1024;
+const ML_OPTIONS = {
+    scriptPath: __dirname + '/../../../ML/music-source-separation/',
+    args: [__dirname + '/../pre-vocal-extraction', __dirname + '/../vocals']
+};
+const ML_SCRIPT = 'eval.py';
 
 /* GET lyrics. */
 router.get('/:id', function (req, res, next) {
+    let returned = false;
     console.log('Intellitune hit with id: ' + req.params.id);
     let result = '';
     const stream = ytdl(req.params.id, { format: (format) => format.container === 'mp4' });
@@ -37,20 +45,35 @@ router.get('/:id', function (req, res, next) {
         }
     });
     stream.pipe(fs.createWriteStream('video.mp4'));
-
     stream.on('finish', () => {
         console.log('Download completed!');
         ffmpeg('video.mp4')
-            .output('video.wav')
+            .output('pre-vocal-extraction/video.wav')
             .run();
-        recognizer
+
+        // Exctract vocals
+        const getVocals = childProcess.spawn('./get_vocals.sh');
+
+        getVocals.stdout.on('data', (data) => {
+            console.log(`stdout: ${data}`);
+          });
+
+        getVocals.on('close', (code) => {
+            console.log('Sending to Speech Recognizer');
+            if (!fs.existsSync(ML_OPTIONS.args[1] + '/video-voice.wav')) {
+                console.log('ERROR: File was not created properly');
+                res.status(500).end();
+                throw InternalError;
+            }
+            recognizer
             .start()
             .then(_ => {
                 recognizer.on('recognition', (e) => {
                     if (e.RecognitionStatus === 'Success') {
                         result += (e.DisplayText + ' ');
-                    } else if (e.RecognitionStatus == 'EndOfDictation') {
-                        fs.unlink('video.wav', (err) => {
+                    } else if (e.RecognitionStatus == 'EndOfDictation' && !returned) {
+                        returned = true;
+                        fs.unlink('./pre-vocal-extraction/video.wav', (err) => {
                             if (err) throw err;
                             console.log('video.wav was deleted');
                         });
@@ -58,20 +81,20 @@ router.get('/:id', function (req, res, next) {
                             if (err) throw err;
                             console.log('video.wav was deleted');
                         });
-                        res.status(200).json({
+                        return res.status(200).json({
                             lyrics: result
-                        })
+                        });
                     } else {
                         console.log(e);
                     }
                 });
 
-                recognizer.sendFile('video.wav')
+                recognizer.sendFile('./vocals/video-voice.wav')
                     .then(_ => console.log('file sent.'))
                     .catch(console.error);
             }).catch(console.error);
+        });
     });
-
 });
 
 module.exports = router;
