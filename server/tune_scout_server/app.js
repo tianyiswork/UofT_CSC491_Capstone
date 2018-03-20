@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var intellitune = require('./routes/intellitune');
+var songId = require('./routes/songId');
 var cors = require('cors');
 
 var app = express();
@@ -26,6 +27,7 @@ app.use(cors());
 app.use('/', index);
 app.use('/users', users);
 app.use('/intellitune', intellitune);
+app.use('/song-id', songId);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

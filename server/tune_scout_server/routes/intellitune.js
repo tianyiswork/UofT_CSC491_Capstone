@@ -21,8 +21,7 @@ const ML_OPTIONS = {
 };
 const ML_SCRIPT = 'eval.py';
 
-/* GET lyrics. */
-router.get('/:id', function (req, res, next) {
+let intellitune = (req, res, next) => {
     let returned = false;
     console.log('Intellitune hit with id: ' + req.params.id);
     let result = '';
@@ -56,7 +55,7 @@ router.get('/:id', function (req, res, next) {
 
         getVocals.stdout.on('data', (data) => {
             console.log(`stdout: ${data}`);
-          });
+        });
 
         getVocals.on('close', (code) => {
             console.log('Sending to Speech Recognizer');
@@ -66,35 +65,43 @@ router.get('/:id', function (req, res, next) {
                 throw InternalError;
             }
             recognizer
-            .start()
-            .then(_ => {
-                recognizer.on('recognition', (e) => {
-                    if (e.RecognitionStatus === 'Success') {
-                        result += (e.DisplayText + ' ');
-                    } else if (e.RecognitionStatus == 'EndOfDictation' && !returned) {
-                        returned = true;
-                        fs.unlink('./pre-vocal-extraction/video.wav', (err) => {
-                            if (err) throw err;
-                            console.log('video.wav was deleted');
-                        });
-                        fs.unlink('video.mp4', (err) => {
-                            if (err) throw err;
-                            console.log('video.wav was deleted');
-                        });
-                        return res.status(200).json({
-                            lyrics: result
-                        });
-                    } else {
-                        console.log(e);
-                    }
-                });
+                .start()
+                .then(_ => {
+                    recognizer.on('recognition', (e) => {
+                        if (e.RecognitionStatus === 'Success') {
+                            result += (e.DisplayText + ' ');
+                        } else if (e.RecognitionStatus == 'EndOfDictation' && !returned) {
+                            returned = true;
+                            fs.unlink('./pre-vocal-extraction/video.wav', (err) => {
+                                if (err) throw err;
+                                console.log('video.wav was deleted');
+                            });
+                            fs.unlink('video.mp4', (err) => {
+                                if (err) throw err;
+                                console.log('video.wav was deleted');
+                            });
+                            res.lyrics = result;
+                            return next();
+                        } else {
+                            console.log(e);
+                        }
+                    });
 
-                recognizer.sendFile('./vocals/video-voice.wav')
-                    .then(_ => console.log('file sent.'))
-                    .catch(console.error);
-            }).catch(console.error);
+                    recognizer.sendFile('./vocals/video-original.wav')
+                        .then(_ => console.log('file sent.'))
+                        .catch(console.error);
+                }).catch(console.error);
         });
     });
+}
+
+/* GET lyrics. */
+router.get('/:id', intellitune, (req, res, next) => {
+    res.status(200).json({
+        lyrics: res.lyrics
+    });
 });
+
+router.intellitune = intellitune
 
 module.exports = router;
