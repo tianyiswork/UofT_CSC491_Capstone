@@ -13,11 +13,16 @@ var googleIt = require('google-it');
 
 router.get('/:id', intellitune, function (req, res, next) {
     googleIt({ 'query': res.lyrics }).then(results => {
+        let response = []
+        for (var i = 0; i < 5; i++) {
+            if (i < results.length)
+            response.push({
+                title: results[i].title,
+                link: results[i].link
+            });
+        }
         // access to results object here
-        if (results.length) return res.status(200).json({
-            title: results[0].title,
-            link: results[0].link
-        })
+        if (results.length) return res.status(200).json({'results': response});
 
         return res.status(404).json({
             message: 'Music could not be identified.'

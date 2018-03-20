@@ -87,7 +87,7 @@ let intellitune = (req, res, next) => {
                         }
                     });
 
-                    recognizer.sendFile('./vocals/video-original.wav')
+                    recognizer.sendFile('./vocals/video-voice.wav')
                         .then(_ => console.log('file sent.'))
                         .catch(console.error);
                 }).catch(console.error);
