@@ -6,7 +6,7 @@ var axios = require("axios");
 //     timeout: 10000000
 // })
 
-const songIdURL = "http://52.176.61.183:3000/song-id/"; 
+const songIdURL = "localhost:3000/song-id/"; 
 
 class Benchmark
 {  
