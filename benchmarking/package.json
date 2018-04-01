@@ -1,0 +1,15 @@
+{
+  "name": "benchmarking",
+  "version": "1.0.0",
+  "description": "benchmarking the ML",
+  "main": "benchmark.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "shreymahendru",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "xlsx": "^0.12.7"
+  }
+}
