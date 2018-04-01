@@ -6,7 +6,7 @@ var axios = require("axios");
 //     timeout: 10000000
 // })
 
-const songIdURL = "localhost:3000/song-id/"; 
+const songIdURL = "http://localhost:3000/song-id/"; 
 
 class Benchmark
 {  
@@ -23,7 +23,7 @@ class Benchmark
         for(let example of this.excelJson)
         {
             console.log(example);
-            if (example["Songs"] !== ""  || example["Songs"].toLowerCase().indexOf("none") !== -1)
+            if (example["Songs"] !== ""  && example["Songs"].toLowerCase().indexOf("none") !== -1)
             {
                 try
                 {
