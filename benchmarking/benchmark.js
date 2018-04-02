@@ -23,7 +23,7 @@ class Benchmark
         for(let example of this.excelJson)
         {
             console.log(example);
-            if (example["Songs"] !== ""  && example["Songs"].toLowerCase().indexOf("none") !== -1)
+            if (example["Songs"] !== ""  && example["Songs"].toLowerCase().indexOf("none") === -1)
             {
                 try
                 {
@@ -38,6 +38,7 @@ class Benchmark
                     let first = result["predicted"].length >= 1 ? result["predicted"][0] : "Can't predict";
                     console.log(first);                
                     this.results.push(result);   
+                    fs.writeFileSync('./result.json', JSON.stringify(result, null, 4));
                 }
                 catch (error)
                 {
@@ -52,7 +53,7 @@ class Benchmark
             
         }
         
-        console.log(this.result)
+        console.log(this.results)
     }
     
     readXlsx()
@@ -60,25 +61,7 @@ class Benchmark
         let buffer = fs.readFileSync("uoftTestSet.xlsx");
         let wb = XLSX.read(buffer, {type: "buffer"});
         this.excelJson  =  XLSX.utils.sheet_to_json(wb.Sheets["Sheet1"]);
-    }
-    
-    // makeRequest()
-    // {
-    //     if (this.excelJson[this.index]["Songs"] !== ""  || this.excelJson[this.index]["Songs"].toLowerCase().indexOf("none") !== -1)
-    //     {
-    //         return axios.get("/song-id/" + example['VIDEO_ID']).then((response) => {
-    //             this.index ++;
-    //             if (this.index >= this.excelJson.length) {
-    //                 return 'done'
-    //             }
-    //             return request();    
-    //         });
-    //     }
-        
-    //     this.makeRequest();
-    // }
-    
-    
+    }    
 }
 
 
