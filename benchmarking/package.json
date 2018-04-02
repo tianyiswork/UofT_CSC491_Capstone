@@ -10,6 +10,9 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
+    "coffee-script": "^1.12.7",
+    "gapi": "0.0.3",
+    "googleapis": "^28.0.1",
     "xlsx": "^0.12.7"
   }
 }

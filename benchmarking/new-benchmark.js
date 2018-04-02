@@ -8,31 +8,32 @@ class Benchmark
 {  
     constructor()
     {
-        this.excelJson = [];
+        this.testSet = [];
         this.results = [];
-        this.readXlsx();   
+        this.readtestSet();   
         this.index = 0; 
+        this.matched = 0;
     }
     
     async start()
     {
-        let cntr = 0;
-        for(let example of this.excelJson)
+        for(let example of this.testSet)
         {
-            cntr++;
-            if (cntr > 16 && example["Songs"] !== ""  && example["Songs"].toLowerCase().indexOf("none") === -1)
+            if (example["Songs"] !== ""  && example["Songs"].toLowerCase().indexOf("none") === -1)
             {
                 try
                 {
                     console.log(example['VIDEO_ID'])
                     let songIdOutput =  await axios.get(songIdURL + example['VIDEO_ID'], {timeout: 1000000});
                     let result = {
-                        "url": example["URL"],
-                        "original_songs": example["Songs"].split(","),
+                        // "url": example["URL"],
+                        "VIDEO_ID": example['VIDEO_ID'],
+                        "original_songs": example["Songs"],
                         "predicted": songIdOutput.data
                     }
                     let first = result["predicted"].length >= 1 ? result["predicted"][0] : "Can't predict";
-                    // console.log(songIdOutput.data);                
+                    // console.log(songIdOutput.data);  
+                    this.compare(result);              
                     this.writeToJson(result);
                 }
                 catch (error)
@@ -40,8 +41,8 @@ class Benchmark
                     if(error.response && error.response.status === 404)
                     {
                         let result = {
-                            "url": example["URL"],
-                            "original_songs": example["Songs"].split(","),
+                            "VIDEO_ID": example['VIDEO_ID'],
+                            "original_songs": example["Songs"],
                             "predicted": []
                         };
                         this.writeToJson(result);  
@@ -54,6 +55,8 @@ class Benchmark
                     }                
                 }
             }
+            await this.sleep();
+            console.log("done sleeping")
             
         }
         console.log("done.");
@@ -61,7 +64,7 @@ class Benchmark
     
     writeToJson(result)
     {
-        const file = "./result.json";
+        const file = "./result-new.json";
         let buffer = [];
         if (fs.existsSync(file))
         {
@@ -71,12 +74,29 @@ class Benchmark
         fs.writeFileSync(file, JSON.stringify(buffer, null, 4));
     }
     
-    readXlsx()
+    readtestSet()
     {
-        let buffer = fs.readFileSync("uoftTestSet.xlsx");
-        let wb = XLSX.read(buffer, {type: "buffer"});
-        this.excelJson  =  XLSX.utils.sheet_to_json(wb.Sheets["Sheet1"]);
+        let buffer = fs.readFileSync("./new-dataset.json");
+        this.testSet = JSON.parse(buffer);
+    }
+    
+    sleep()
+    {
+        return new Promise(resolve => setTimeout(resolve, 10000););
     }    
+    
+    compare(result)
+    {
+        let original = result["original_songs"].toLowerCase().trim();
+        let predicted = result["predicted"];
+        for(let song in predicted)
+        {
+            if (song.toLowerCase().trim().indexOf(original) !== -1 )
+                this.matched += 1;
+        }
+        console.log("MATCHED AS OF NOW: ");
+        console.log(this.matched);
+    }
 }
 
 
