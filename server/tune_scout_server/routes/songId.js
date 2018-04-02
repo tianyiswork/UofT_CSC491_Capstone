@@ -31,22 +31,26 @@ router.get('/:id', intellitune, function (req, res, next) {
             let top_5 = [];
             let promises = [];
             for (let i = 0; i < 5 && i < results.length; i++) {
-                promises.push(exec('./get_lyrics.sh \"' + escape(results[i].title) + '\"'));
+                // promises.push(exec('./get_lyrics.sh \"' + escape(results[i].title) + '\"'));
+                top_5.push({
+                    title: results[i].title, 
+                    link: results[i].link
+                })
             }
-            Promise.all(promises).then(values => {
-                for (let i = 0; i < promises.length; i++) {
-                    top_5.push({
-                        title: results[i].title,
-                        link: results[i].link,
-                        confidence: ''+(stringSimilarity.compareTwoStrings(res.lyrics, values[i].stdout)*100)+'%'
-                    });
-                }
+            // Promise.all(promises).then(values => {
+            //     for (let i = 0; i < promises.length; i++) {
+            //         top_5.push({
+            //             title: results[i].title,
+            //             link: results[i].link,
+            //             confidence: ''+(stringSimilarity.compareTwoStrings(res.lyrics, values[i].stdout)*100)+'%'
+            //         });
+            //     }
 
-                return res.status(200).json({
-                    top_5
-                });
-            })
-            .catch((err) => console.log(err));
+            //     return res.status(200).json({
+            //         top_5
+            //     });
+            // })
+            // .catch((err) => console.log(err));
         } else {
             return res.status(404).json({
                 message: 'Music could not be identified.'
