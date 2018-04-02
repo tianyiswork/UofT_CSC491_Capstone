@@ -34,7 +34,7 @@ class Benchmark
                         "predicted": songIdOutput.data
                     }
                     let first = result["predicted"].length >= 1 ? result["predicted"][0] : "Can't predict";
-                    // console.log(songIdOutput.data);  
+                    console.log(songIdOutput.data);  
                     this.compare(result);              
                     this.writeToJson(result);
                 }

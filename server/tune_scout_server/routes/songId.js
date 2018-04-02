@@ -16,6 +16,7 @@ var stringSimilarity = require('string-similarity');
 var exec = require('child-process-promise').exec;
 
 router.get('/:id', intellitune, function (req, res, next) {
+    console.log(res.lyrics);
     googleIt({ 'query': res.lyrics }).then(results => {
         let response = []
         for (var i = 0; i < 5; i++) {

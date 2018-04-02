@@ -1,0 +1,280 @@
+[
+    {
+        "VIDEO_ID": "w-uPPc6Ffek",
+        "original_songs": [
+            "PERFECT"
+        ],
+        "predicted": []
+    },
+    {
+        "VIDEO_ID": "5xOEasowLuI",
+        "original_songs": [
+            "HAVANA"
+        ],
+        "predicted": []
+    },
+    {
+        "VIDEO_ID": "OQpFC7uqC4w",
+        "original_songs": [
+            "MEANT TO BE"
+        ],
+        "predicted": []
+    },
+    {
+        "VIDEO_ID": "gpfIZo7DJVQ",
+        "original_songs": [
+            "Bad Romance"
+        ],
+        "predicted": []
+    },
+    {
+        "VIDEO_ID": "19W3k4D760k",
+        "original_songs": [
+            "Psycho"
+        ],
+        "predicted": {
+            "top_5": [
+                {
+                    "title": "Say It With Feeling: Have Curse Words Lost All Meaning? - The Atlantic",
+                    "link": "https://www.theatlantic.com/entertainment/archive/2012/06/say-it-feeling-have-curse-words-lost-all-meaning/326421/"
+                },
+                {
+                    "title": "Legality regarding \"cuss\" words in public - Ars Technica OpenForum",
+                    "link": "https://arstechnica.com/civis/viewtopic.php?t=1172064"
+                },
+                {
+                    "title": "Quotes from A Christmas Story | Atom - Regal Cinemas",
+                    "link": "https://www.regmovies.com/movies/a-christmas-story/B00891241590/quotes"
+                },
+                {
+                    "title": "Lyrics | rush vault",
+                    "link": "https://rushvault.com/lyrics/"
+                },
+                {
+                    "title": "Okay... then how 'bout we try out some French cuisine. Saturday ...",
+                    "link": "https://github.com/llSourcell/tensorflow_chatbot/files/677217/test.dec.txt"
+                }
+            ]
+        }
+    },
+    {
+        "VIDEO_ID": "C37IAgRZTgc",
+        "original_songs": [
+            "Delicate"
+        ],
+        "predicted": {
+            "top_5": [
+                {
+                    "title": "The media debate over printing “shithole” reveals an outmoded view ...",
+                    "link": "https://www.vox.com/the-big-idea/2018/1/16/16896756/shithole-profanity-changing-curse-words-dehumanizing-groups"
+                },
+                {
+                    "title": "On Shit: Profanity as Weltanschauung - Los Angeles Review of Books",
+                    "link": "https://lareviewofbooks.org/article/on-shit-profanity-as-weltanschauung/"
+                },
+                {
+                    "title": "BBC - Culture - Mind your language! Swearing around the world",
+                    "link": "http://www.bbc.com/culture/story/20150306-how-to-swear-around-the-world"
+                },
+                {
+                    "title": "Osiris (Floridaswamp) on Pinterest",
+                    "link": "https://www.pinterest.com/Floridaswamp/"
+                },
+                {
+                    "title": "13 best Cultural artefacts images on Pinterest | History, Civilization ...",
+                    "link": "https://www.pinterest.com/tyoung24601/cultural-artefacts/"
+                }
+            ]
+        }
+    },
+    {
+        "VIDEO_ID": "chVaOiLG6cM",
+        "original_songs": [
+            "God’s Plan"
+        ],
+        "predicted": []
+    },
+    {
+        "VIDEO_ID": "BDC8Jr-gp_4",
+        "original_songs": [
+            "Shape of You"
+        ],
+        "predicted": {
+            "top_5": [
+                {
+                    "title": "Burak Yeter - Tuesday ft. Danelle Sandoval (Official Music Video ...",
+                    "link": "https://www.youtube.com/watch?v=TWM07bMF2Fw"
+                },
+                {
+                    "title": "​iLoveMakonnen – Club Going Up on a Tuesday Lyrics | Genius Lyrics",
+                    "link": "https://genius.com/Ilovemakonnen-club-going-up-on-a-tuesday-lyrics"
+                },
+                {
+                    "title": "Drake - Tuesday lyrics - Directlyrics",
+                    "link": "http://directlyrics.com/drake-tuesday-lyrics.html"
+                },
+                {
+                    "title": "When did Thursday become the night to go out after work? | Jamaica ...",
+                    "link": "https://www.yelp.com/topic/jamaica-when-did-thursday-become-the-night-to-go-out-after-work"
+                },
+                {
+                    "title": "Chixdiggit - Thursday Night Lyrics | MetroLyrics",
+                    "link": "http://www.metrolyrics.com/thursday-night-lyrics-chixdiggit.html"
+                }
+            ]
+        }
+    },
+    {
+        "VIDEO_ID": "7mQYuBxwu1o",
+        "original_songs": [
+            "NEW RULES"
+        ],
+        "predicted": []
+    },
+    {
+        "VIDEO_ID": "5mA82CWRopw",
+        "original_songs": [
+            "Despacito"
+        ],
+        "predicted": []
+    },
+    {
+        "VIDEO_ID": "FF4qS5D3V8s",
+        "original_songs": [
+            "FRIENDS"
+        ],
+        "predicted": {
+            "top_5": [
+                {
+                    "title": "Tell sister relationship is doomed? - CNN.com",
+                    "link": "http://www.cnn.com/2010/LIVING/12/08/tf.tell.sister.relationship.doomed/index.html"
+                },
+                {
+                    "title": "What does it mean when a girl says you are like my brother? - Quora",
+                    "link": "https://www.quora.com/What-does-it-mean-when-a-girl-says-you-are-like-my-brother"
+                },
+                {
+                    "title": "How Do I Tell My Sister I Hate Her Fiancé? | A Practical Wedding",
+                    "link": "https://apracticalwedding.com/hate-sisters-fiance/"
+                },
+                {
+                    "title": "'I grew up knowing I was my mother's least favourite child'",
+                    "link": "https://www.telegraph.co.uk/women/family/i-grew-up-knowing-i-was-my-mothers-least-favourite-child/"
+                },
+                {
+                    "title": "'She's Still Your Mother' – I am angry at my sister but my nieces need ...",
+                    "link": "http://www.risemagazine.org/2015/09/shes-still-your-mother/"
+                }
+            ]
+        }
+    },
+    {
+        "VIDEO_ID": "yWtQSgH1UPY",
+        "original_songs": [
+            "IDGAF"
+        ],
+        "predicted": {
+            "top_5": [
+                {
+                    "title": "Why you don't need to excel at math to learn how to program",
+                    "link": "https://medium.freecodecamp.org/why-you-dont-need-to-excel-at-math-to-learn-how-to-program-90f9697f70d9"
+                },
+                {
+                    "title": "Why do we learn things in school when we don't need to know it in ...",
+                    "link": "https://www.quora.com/Why-do-we-learn-things-in-school-when-we-dont-need-to-know-it-in-life"
+                },
+                {
+                    "title": "You Don't Need To Study Grammar To Learn A Foreign Language",
+                    "link": "https://www.mezzoguild.com/you-dont-need-to-study-grammar-to-learn-a-foreign-language/"
+                },
+                {
+                    "title": "Please don't learn to code | TechCrunch",
+                    "link": "https://techcrunch.com/2016/05/10/please-dont-learn-to-code/"
+                },
+                {
+                    "title": "05 I Don't Need To Learn by Guy Connor | Free Listening on ...",
+                    "link": "https://soundcloud.com/guy-connor/05-i-dont-need-to-learn"
+                }
+            ]
+        }
+    },
+    {
+        "VIDEO_ID": "JYH72mMBQN8",
+        "original_songs": [
+            "Thunder"
+        ],
+        "predicted": {
+            "top_5": [
+                {
+                    "title": "Jeep Seat Belts & Harness Belts - Jeep Safety Parts & Accessories ...",
+                    "link": "https://www.4wd.com/b/interior/seating/seat-belts-and-harnesses/_/N-clequ"
+                },
+                {
+                    "title": "2000 Jeep Wrangler: Ep. 14: Rear Seat Belt Follow-Up - YouTube",
+                    "link": "https://www.youtube.com/watch?v=Gls9yj4aWxc"
+                },
+                {
+                    "title": "How To Fix Repair a Stuck Seatbelt (Retract Seat Belt Toyota Ford ...",
+                    "link": "https://www.youtube.com/watch?v=KCkUv1kbvEU"
+                },
+                {
+                    "title": "Middle Rear Seat Seatbelt | BMW Genius How-To - YouTube",
+                    "link": "https://www.youtube.com/watch?v=x1g97QGpIBk"
+                },
+                {
+                    "title": "Jeep Rear Car & Truck Safety & Security | eBay",
+                    "link": "https://www.ebay.com/b/Jeep-Rear-Car-Truck-Safety-Security/33718/bn_50656385?_pgn=4"
+                }
+            ]
+        }
+    },
+    {
+        "VIDEO_ID": "lHVrZGSasvo",
+        "original_songs": [
+            "See You Again"
+        ],
+        "predicted": []
+    },
+    {
+        "VIDEO_ID": "QbsCkf5WsQI",
+        "original_songs": [
+            "Believer"
+        ],
+        "predicted": []
+    },
+    {
+        "VIDEO_ID": "BG9rW-hYikw",
+        "original_songs": [
+            "Thinking Out Loud"
+        ],
+        "predicted": []
+    },
+    {
+        "VIDEO_ID": "vRkfQ596YnU",
+        "original_songs": [
+            "Gods Plan"
+        ],
+        "predicted": []
+    },
+    {
+        "VIDEO_ID": "A7ivLy1fxQQ",
+        "original_songs": [
+            "Finesse"
+        ],
+        "predicted": []
+    },
+    {
+        "VIDEO_ID": "GC8xo2twsqk",
+        "original_songs": [
+            "NEVER BE THE SAME"
+        ],
+        "predicted": []
+    },
+    {
+        "VIDEO_ID": "d42qu1tsP54",
+        "original_songs": [
+            "Whatever It Takes"
+        ],
+        "predicted": []
+    }
+]

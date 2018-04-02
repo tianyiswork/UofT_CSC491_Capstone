@@ -55,7 +55,7 @@ class EvalConfig:
     GRIFFIN_LIM = False
     GRIFFIN_LIM_ITER = 1000
     NUM_EVAL = 1
-    SECONDS = 120
+    SECONDS = 60
     RE_EVAL = True
     EVAL_METRIC = False
     WRITE_RESULT = True
