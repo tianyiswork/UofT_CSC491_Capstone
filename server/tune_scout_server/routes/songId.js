@@ -31,7 +31,7 @@ router.get('/:id', intellitune, function (req, res, next) {
             let top_5 = [];
             let promises = [];
             for (let i = 0; i < 5 && i < results.length; i++) {
-                promises.push(exec('./get_lyrics.sh \"' + results[i].title + '\"'));
+                promises.push(exec('./get_lyrics.sh \"' + escape(results[i].title) + '\"'));
             }
             Promise.all(promises).then(values => {
                 for (let i = 0; i < promises.length; i++) {
