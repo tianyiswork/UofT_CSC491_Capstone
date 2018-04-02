@@ -37,6 +37,9 @@ router.get('/:id', intellitune, function (req, res, next) {
                     link: results[i].link
                 })
             }
+            return res.status(200).json({
+                    top_5
+                });
             // Promise.all(promises).then(values => {
             //     for (let i = 0; i < promises.length; i++) {
             //         top_5.push({
