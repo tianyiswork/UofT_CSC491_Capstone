@@ -91,10 +91,10 @@ class Benchmark
     {
         let original = result["original_songs"][0].toLowerCase().trim();
         let predicted = result["predicted"]["top_5"];
-        for(let song in predicted)
+        for(let song of predicted)
         {
-            
-            let similarity = stringSimilarity.compareTwoStrings(song, original)*100;
+            console.log(song);
+            let similarity = stringSimilarity.compareTwoStrings(song["title"], original)*100;
             
             console.log(similarity); 
             console.log(song); 
@@ -103,13 +103,17 @@ class Benchmark
             
             if (similarity > 10)
             {
+                console.log("++++++MATCH+++++++")
                 console.log(similarity); 
                 console.log(song); 
                 console.log(original);
+                this.matched += 1;
+                
+                break;
             }
             
-            if (song.toLowerCase().trim().indexOf(original) !== -1 )
-                this.matched += 1;
+            // if (song.toLowerCase().trim().indexOf(original) !== -1 )
+            //     this.matched += 1;
         }
         console.log("MATCHED AS OF NOW: ");
         console.log(this.matched);
