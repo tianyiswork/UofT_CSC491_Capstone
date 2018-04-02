@@ -38,7 +38,7 @@ class Benchmark
                     let first = result["predicted"].length >= 1 ? result["predicted"][0] : "Can't predict";
                     console.log(songIdOutput.data);                
                     this.results.push(result);   
-                    fs.writeFileSync('./result.json', JSON.stringify(result, null, 4));
+                    fs.writeFileSync('./result.json', JSON.stringify(this.results, null, 4));
                 }
                 catch (error)
                 {
@@ -47,6 +47,7 @@ class Benchmark
                     console.log(error.data);
                     console.error(error.status);
                     console.error(error.statusText);
+                    console.log("++++++ERROR++++++"); 
                     
                 }
             }
