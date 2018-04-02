@@ -23,7 +23,7 @@ class Benchmark
         for(let example of this.excelJson)
         {
             console.log(example);
-            if (example["Songs"] !== ""  && example["Songs"].toLowerCase().indexOf("none") !== -1)
+            if (example["Songs"] !== ""  && example["Songs"].toLowerCase().indexOf("none") === -1)
             {
                 try
                 {
@@ -36,14 +36,14 @@ class Benchmark
                     }
                     console.log(example['VIDEO_ID'])
                     let first = result["predicted"].length >= 1 ? result["predicted"][0] : "Can't predict";
-                    console.log(first);                
+                    console.log(songIdOutput.data);                
                     this.results.push(result);   
                 }
                 catch (error)
                 {
                     console.log("++++++ERROR++++++"); 
                     console.log(example['VIDEO_ID'])
-                    console.log(error);
+                    console.log(error.data);
                     console.error(error.status);
                     console.error(error.statusText);
                     
@@ -52,7 +52,7 @@ class Benchmark
             
         }
         
-        console.log(this.result)
+        console.log(this.results)
     }
     
     readXlsx()
