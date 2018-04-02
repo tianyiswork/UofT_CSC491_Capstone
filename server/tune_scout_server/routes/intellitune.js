@@ -25,6 +25,7 @@ let intellitune = (req, res, next) => {
     let returned = false;
     console.log('Intellitune hit with id: ' + req.params.id);
     let result = '';
+    console.time("downloadVid");
     const stream = ytdl(req.params.id, { format: (format) => format.container === 'mp4' });
     let startTime = null;
     let lastTime = null;
@@ -45,12 +46,14 @@ let intellitune = (req, res, next) => {
     });
     stream.pipe(fs.createWriteStream('video.mp4'));
     stream.on('finish', () => {
+        console.timeEnd("downloadVid");
         console.log('Download completed!');
         ffmpeg('video.mp4')
             .output('pre-vocal-extraction/video.wav')
             .run();
 
         // Exctract vocals
+        console.time("extractVocals");
         const getVocals = childProcess.spawn('./get_vocals.sh');
 
         getVocals.stdout.on('data', (data) => {
@@ -58,42 +61,73 @@ let intellitune = (req, res, next) => {
         });
 
         getVocals.on('close', (code) => {
-            console.log('Sending to Speech Recognizer');
-            if (!fs.existsSync(ML_OPTIONS.args[1] + '/video-voice.wav')) {
-                console.log('ERROR: File was not created properly');
-                res.status(500).end();
-                throw InternalError;
-            }
-            recognizer
-                .start()
-                .then(_ => {
-                    recognizer.on('recognition', (e) => {
-                        if (e.RecognitionStatus === 'Success') {
-                            result += (e.DisplayText + ' ');
-                        } else if (e.RecognitionStatus == 'EndOfDictation' && !returned) {
-                            returned = true;
-                            fs.unlink('./pre-vocal-extraction/video.wav', (err) => {
-                                if (err) throw err;
-                                console.log('video.wav was deleted');
-                            });
-                            return fs.unlink('video.mp4', (err) => {
-                                if (err) throw err;
-                                console.log('video.wav was deleted');
-                                res.lyrics = result;
-                                return next();
+            console.timeEnd("extractVocals");
 
-                            });
-                        } else {
-                            console.log(e);
-                        }
+            // Split up vocals
+            console.time("splitVocals");
+            const splitVocals = childProcess.spawn('./split_vocals.sh');
+
+            splitVocals.stdout.on('data', (data) => {
+                console.log(`stdout: ${data}`);
+            });
+
+            splitVocals.on('close', (code) => {
+                console.timeEnd("splitVocals");
+                console.time("speechRecog");
+                console.log('Sending to Speech Recognizer');
+                const vocalRegex = /vocal\d+.wav/;
+                let vocalFiles = fs.readdirSync(ML_OPTIONS.args[1]).filter(file => file.match(vocalRegex));
+                if (vocalFiles.length == 0) {
+                    // Ensure at least one file exists.
+                    console.log('ERROR: File was not created properly');
+                    res.status(500).end();
+                    throw InternalError;
+                }
+                vocalFiles = vocalFiles.map((file) => ML_OPTIONS.args[1] + '/' + file);
+                Promise.all(vocalFiles.map((file) => recognizeFile(file)))
+                .then(values => {
+                    res.lyrics = cleanLyrics(values);
+                    console.timeEnd("speechRecog");
+                    next();
+                    vocalFiles.forEach((file) => {
+                        fs.unlink(file, (err) => {
+                            if (err) throw err;
+                            console.log(file + ' was deleted');
+                        });
                     });
-
-                    recognizer.sendFile('./vocals/video-voice.wav')
-                        .then(_ => console.log('file sent.'))
-                        .catch(console.error);
-                }).catch(console.error);
+                });
+            });
         });
     });
+}
+
+let recognizeFile = (file) => {
+    return new Promise((res, rej) => {
+        const recognizer = childProcess.spawn('python', ['recognize.py', file]);
+        recognizer.stdout.on('data', (data) => {
+            let dataStr = data.toString();
+            res(dataStr);
+        });
+
+        recognizer.on('exit', () => {
+            console.log('Done!');
+            res();
+        });
+    });
+}
+
+let cleanLyrics = (lyricList) => {
+    // Include non-trivial transcriptions
+    let cleanedList = lyricList.filter((lyrics) => lyrics);
+    console.log(cleanedList);
+    cleanedList = cleanedList.filter((lyrics) => {
+        console.log(lyrics);
+        return lyrics.split(" ").length > 4;
+    });
+
+    // Remove \n
+    cleanedList = cleanedList.map((lyrics) => lyrics.slice(0, -1));
+    return cleanedList.join(' ');
 }
 
 /* GET lyrics. */
