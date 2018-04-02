@@ -29,7 +29,7 @@ router.get('/:id', intellitune, function (req, res, next) {
                     top_5.push({
                         title: results[i].title,
                         link: results[i].link,
-                        confidence: ''+(stringSimilarity.compareTwoStrings(res.lyrics, values[i].stdout)*100)+'%'
+                        confidence: ''+(stringSimilarity.compareTwoStrings(res.lyrics, values[i].stdout.split('\n')[1] ? values[i].stdout : '')*100)+'%'
                     });
                 }
 
