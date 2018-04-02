@@ -81,6 +81,7 @@ let intellitune = (req, res, next) => {
                                 console.log('video.wav was deleted');
                                 res.lyrics = result;
                                 return next();
+
                             });
                         } else {
                             console.log(e);
