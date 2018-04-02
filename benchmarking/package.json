@@ -13,6 +13,7 @@
     "coffee-script": "^1.12.7",
     "gapi": "0.0.3",
     "googleapis": "^28.0.1",
+    "string-similarity": "^1.2.0",
     "xlsx": "^0.12.7"
   }
 }
