@@ -78,7 +78,7 @@ let intellitune = (req, res, next) => {
                             });
                             fs.unlink('video.mp4', (err) => {
                                 if (err) throw err;
-                                console.log('video.wav was deleted');
+                                console.log('video.mp4 was deleted');
                             });
                             res.lyrics = result;
                             return next();
