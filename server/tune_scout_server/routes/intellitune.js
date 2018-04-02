@@ -88,13 +88,13 @@ let intellitune = (req, res, next) => {
                 .then(values => {
                     res.lyrics = cleanLyrics(values);
                     console.timeEnd("speechRecog");
-                    next();
                     vocalFiles.forEach((file) => {
                         fs.unlink(file, (err) => {
                             if (err) throw err;
                             console.log(file + ' was deleted');
                         });
                     });
+                    next();
                 });
             });
         });
