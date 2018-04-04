@@ -88,13 +88,33 @@ let intellitune = (req, res, next) => {
                 .then(values => {
                     res.lyrics = cleanLyrics(values);
                     console.timeEnd("speechRecog");
-                    next();
                     vocalFiles.forEach((file) => {
                         fs.unlink(file, (err) => {
                             if (err) throw err;
                             console.log(file + ' was deleted');
                         });
                     });
+
+                    fs.unlink('./video.mp4', (err) => {
+                        if (err) throw err;
+                        console.log('video.mp4 was deleted');
+                    });
+
+                    fs.unlink('./vocals/video-music.wav', (err) => {
+                        if (err) throw err;
+                        console.log('video-music.wav was deleted');
+                    });
+
+                    fs.unlink('./vocals/video-original.wav', (err) => {
+                        if (err) throw err;
+                        console.log('video-original.wav was deleted');
+                    });
+
+                    fs.unlink('./vocals/video-voice.wav', (err) => {
+                        if (err) throw err;
+                        console.log('video-voice.wav was deleted');
+                    });
+                    next();
                 });
             });
         });
