@@ -36,7 +36,7 @@
     "webpack-dev-server": "^2.11.1"
   },
   "dependencies": {
-    "@nivinjoseph/n-app": "^1.0.32",
+    "@nivinjoseph/n-app": "^4.0.34",
     "@nivinjoseph/n-config": "^1.0.15",
     "@nivinjoseph/n-ject": "^1.0.11",
     "@types/jquery": "^3.3.0",
